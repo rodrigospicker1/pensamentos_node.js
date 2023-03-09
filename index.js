@@ -5,18 +5,29 @@ const FileStore = require('session-file-store')(session)
 const flash = require('express-flash')
 
 const app = express()
-const conn = require('.db/conn')
+const conn = require('./db/conn')
 
-app.engine('handlebars', exphbs())
+//models
+const User = require('./models/User')
+const Tought = require('./models/Tought')
+
+//imports
+const toughtsRoutes = require('./routes/toughtRoutes')
+const ToughtController = require('./controllers/ToughtController')
+
+//template engine
+app.engine('handlebars', exphbs.engine())
 app.set('view engine', 'handlebars')
 
+//res from body
 app.use(
     express.urlencoded({
         extended: true
     })
 )
-
 app.use(express.json())
+
+//session middleware
 app.use(
     session({
         name: 'session',
@@ -35,8 +46,18 @@ app.use(
         }
     }),
 )
+
+//flash messages
 app.use(flash())
+
+//public pah
 app.use(express.static('public'))
+
+//Routes
+app.use('/toughts', toughtsRoutes)
+app.get('/', ToughtController.showToughts)
+
+//seting session to res
 app.use((req,res, next) => {
     if(req.session.userid){
         res.locals.session = req.session
@@ -44,7 +65,10 @@ app.use((req,res, next) => {
     next()
 })
 
-
-conn.sync().then(() => {
+//connection db
+conn
+.sync()
+.then(() => {
     app.listen(3000)
-}).catch((err) => console.log(err))
+})
+.catch((err) => console.log(err))
