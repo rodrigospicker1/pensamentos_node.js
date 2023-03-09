@@ -14,6 +14,7 @@ const Tought = require('./models/Tought')
 //imports
 const toughtsRoutes = require('./routes/toughtRoutes')
 const ToughtController = require('./controllers/ToughtController')
+const authRoutes = require('./routes/authRoutes')
 
 //template engine
 app.engine('handlebars', exphbs.engine())
@@ -55,6 +56,8 @@ app.use(express.static('public'))
 
 //Routes
 app.use('/toughts', toughtsRoutes)
+app.use('/', authRoutes)
+
 app.get('/', ToughtController.showToughts)
 
 //seting session to res
