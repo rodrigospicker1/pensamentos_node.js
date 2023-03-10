@@ -31,11 +31,12 @@ module.exports = class AuthController {
         }
 
         req.session.userid = user.id 
+        var userid = req.session.userid
 
         req.flash('success', 'Logado com sucesso!')
 
         req.session.save(() => {
-            res.redirect('/')
+            res.render('toughts/home', {userid})
         })
 
     }
@@ -76,7 +77,7 @@ module.exports = class AuthController {
             req.flash('success', 'Cadastro realizado com sucesso!')
 
             req.session.save(() => {
-                res.redirect('/')
+                res.redirect('/', req.session.userid)
             })
 
         }catch(err){

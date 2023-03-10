@@ -3,7 +3,9 @@ const User = require('../models/User')
 
 module.exports = class ToughtController {
     static async showToughts(req, res){
-        res.render('toughts/home')
+        console.log(req.session.userid)
+        var userid = req.session.userid
+        res.render('toughts/home', {userid})
     }
 
     static dashboard(req, res){
