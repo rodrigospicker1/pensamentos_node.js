@@ -171,18 +171,45 @@ body {
   }
 }
 
+input:-webkit-autofill,
+input:-webkit-autofill:hover, 
+input:-webkit-autofill:focus{
+  -webkit-text-fill-color: rgb(255, 255, 255) !important;
+  -webkit-box-shadow: 0 0 0px 1000px #rgba(0,0,0,.5); inset;
+  transition: background-color 5000s ease-in-out 0s;
+}
+
+.erro{
+    width: 100%;
+    background-color: #b70000;
+    color: #ffffff;
+    height: 40px;
+    padding: 10px;
+    border-radius: 5px;
+    border-left: 4px solid #fff6f6;
+    margin-bottom: 25px;
+    }
+
 </style>
 
 <div class="login-box">
   <h2>Login</h2>
-  <form method="POST">
+  {{#if messages.error}}
+    <div class="erro">
+      {{messages.error}}
+    </div>
+  {{/if}}
+  <form method="POST" action="/login">
     <div class="user-box">
-      <input type="text" name="name" required>
-      <label>Username</label>
+      <input type="text" name="email" required>
+      <label>E-mail</label>
     </div>
     <div class="user-box">
-      <input type="email" name="email" required>
-      <label>E-mail</label>
+      <input type="password" name="password" required>
+      <label>Senha</label>
+    </div>
+    <div class="user-box">
+      <a href="/login" style="text-decoration: underline;color:#fff;letter-spacing:3px">Não tenho conta!</a>
     </div>
     <button type="submit">
       <span></span>
